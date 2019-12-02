@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:flutter_learn_demo/UIImplementationDemo.dart';
 import 'RandomWords.dart';
+import 'SampleApp.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,7 +25,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
 //      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    home: RandomWords(),
+//    home: RandomWords(),
+    home: SampleApp(),
     );
   }
 }
