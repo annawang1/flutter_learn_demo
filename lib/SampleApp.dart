@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_learn_demo/strings.dart';
 
 class SampleApp extends StatelessWidget {
   @override
@@ -85,8 +86,29 @@ class SampleAppWidgetState extends State<SampleAppWidget> {
         itemBuilder: (BuildContext context, int position) {
           return Padding(
             padding: EdgeInsets.all(10),
-            child: Text("Row $position ${_widgets[position]["title"]}"),
+//            child: Text("Row $position ${_widgets[position]["title"]}"),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("Row $position ${_widgets[position]["title"]}"),
+                getImages(),
+                Text(Strings.welcomeMessage)
+              ],
+            ),
           );
         });
+  }
+
+  getImages() {
+    return Center(
+      child: Image.asset(
+        "images/lake.jpg",
+        width: 20,
+        height: 20,
+      ),
+    );
+//    return Center(
+//      child: Image(image: AssetImage("images/lake.jpg")),
+//    );
   }
 }
