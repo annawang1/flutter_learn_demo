@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -33,15 +34,60 @@ class SampleAppWidgetState extends State<SampleAppWidget> {
     loadData();
   }
 
+//  loadData() async {
+//    String dataURL = 'https://jsonplaceholder.typicode.com/posts';
+//    http.Response response = await http.get(dataURL);
+//    setState(() {
+//      print("#########" + response.body);
+//      _widgets = json.decode(response.body);
+//      print("#########" + _widgets.length.toString());
+//    });
+//  }
+
   loadData() async {
-    String dataURL = 'https://jsonplaceholder.typicode.com/posts';
-    http.Response response = await http.get(dataURL);
+    ReceivePort receivePort = ReceivePort();
+    await Isolate.spawn(dataLoader, receivePort.sendPort);
+
+    SendPort sendPort = await receivePort.first;
+
+    List msg = await sendReceive(sendPort, "https://jsonplaceholder.typicode.com/posts");
+
     setState(() {
-      print("#########" + response.body);
-      _widgets = json.decode(response.body);
-      print("#########" + _widgets.length.toString());
+      _widgets = msg;
     });
+
+//
+//    String dataURL = 'https://jsonplaceholder.typicode.com/posts';
+//    http.Response response = await http.get(dataURL);
+//    setState(() {
+//      print("#########" + response.body);
+//      _widgets = json.decode(response.body);
+//      print("#########" + _widgets.length.toString());
+//    });
   }
+
+  static dataLoader(SendPort sendPort) async {
+    ReceivePort receivePort = ReceivePort();
+    sendPort.send(receivePort.sendPort);
+    await for(var msg in receivePort) {
+      String data = msg[0];
+      SendPort replyTo = msg[1];
+
+      String dataURL = data;
+      http.Response response = await http.get(dataURL);
+      replyTo.send(json.decode(response.body));
+    }
+  }
+
+  Future sendReceive(SendPort sendPort, msg) {
+
+    ReceivePort response = ReceivePort();
+    sendPort.send([msg, response.sendPort]);
+    return response.first;
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
