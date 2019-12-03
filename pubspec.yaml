@@ -49,9 +49,8 @@ flutter:
   #  - images/a_dot_ham.jpeg
   assets:
     - images/lake.jpg
-    - images/
-    - images/2.0x
-    - images/3.0x
+    - images/2.0x/lake.jpg
+    - images/3.0x/lake.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
