@@ -3,6 +3,7 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter_learn_demo/UIImplementationDemo.dart';
 import 'RandomWords.dart';
 import 'SampleApp.dart';
+import 'lifecycle_watcher.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
 //      home: MyHomePage(title: 'Flutter Demo Home Page'),
 //    home: RandomWords(),
     home: SampleApp(),
+//    home: LifecycleWatcher(),
     );
   }
 }
